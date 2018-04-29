@@ -75,7 +75,7 @@ def networkPathPlot(solution,maxNode,cost):
 
 #%%
 # pull data
-edges = pd.read_csv('edge_data.csv')
+edges = pd.read_csv('edge_values.csv')
 edges['i'] = np.int64(edges['i'])
 edges['j'] = np.int64(edges['j'])
 
@@ -94,7 +94,7 @@ minNodes = min(edges['i'])
 #%%
 # choose start and end nodes
 start = 0
-end = 49
+end = int(maxNodes)
 
 # allowed edge congestions
 gend = 4

@@ -1,0 +1,912 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{shortPath nb updating values}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{c+c1}{\PYZsh{} Austin Griffith}
+        \PY{c+c1}{\PYZsh{} Python 3.6.5}
+        \PY{c+c1}{\PYZsh{} 4/25/2018}
+        
+        \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{from} \PY{n+nn}{gurobipy} \PY{k}{import} \PY{o}{*}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pylab} \PY{k}{as} \PY{n+nn}{pylab}
+        \PY{k+kn}{import} \PY{n+nn}{networkx} \PY{k}{as} \PY{n+nn}{nx}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{c+c1}{\PYZsh{} set up plotting parameters}
+        \PY{n}{params} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{legend.fontsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{20}\PY{p}{,}
+                  \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{figure.figsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{(}\PY{l+m+mi}{13}\PY{p}{,}\PY{l+m+mi}{9}\PY{p}{)}\PY{p}{,}
+                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{axes.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{20}\PY{p}{,}
+                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{axes.titlesize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+m+mi}{20}\PY{p}{,}
+                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+m+mi}{15}\PY{p}{,}
+                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+m+mi}{15}\PY{p}{\PYZcb{}}
+        \PY{n}{pylab}\PY{o}{.}\PY{n}{rcParams}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{n}{params}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{\PYZsh{} graph all nodes and paths}
+        \PY{k}{def} \PY{n+nf}{networkCompletePlot}\PY{p}{(}\PY{n}{solution}\PY{p}{,}\PY{n}{maxNode}\PY{p}{)}\PY{p}{:}
+            \PY{n}{G} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{DiGraph}\PY{p}{(}\PY{p}{)}
+            \PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}nodes\PYZus{}from}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{maxNode}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+            \PY{k}{for} \PY{n}{i}\PY{p}{,}\PY{n}{j} \PY{o+ow}{in} \PY{n}{nodes}\PY{p}{:}
+                \PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}edge}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}
+        
+            \PY{c+c1}{\PYZsh{} get solution nodes}
+            \PY{n}{sp} \PY{o}{=} \PY{p}{[}\PY{n}{i} \PY{k}{for} \PY{n}{i}\PY{p}{,}\PY{n}{j} \PY{o+ow}{in} \PY{n}{solution}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}
+            \PY{n}{sp}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{end}\PY{p}{)}
+        
+            \PY{n}{colorNode} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{white}\PY{l+s+s1}{\PYZsq{}} \PY{k}{if} \PY{o+ow}{not} \PY{n}{node} \PY{o+ow}{in} \PY{n}{sp} \PY{k}{else} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}} \PY{k}{for} \PY{n}{node} \PY{o+ow}{in} \PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{(}\PY{p}{)}\PY{p}{]}
+            \PY{n}{title} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Complete Network: Gamma = }\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{int}\PY{p}{(}\PY{n}{solution}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{, Opt Obj = }\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{round}\PY{p}{(}\PY{n}{solution}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+            \PY{n}{nx}\PY{o}{.}\PY{n}{draw\PYZus{}networkx}\PY{p}{(}\PY{n}{G}\PY{p}{,}\PY{n}{node\PYZus{}color}\PY{o}{=}\PY{n}{colorNode}\PY{p}{,}\PY{n}{node\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{200}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{off}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{n}{title}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} graph path, with costs on edges}
+        \PY{k}{def} \PY{n+nf}{networkPathPlot}\PY{p}{(}\PY{n}{solution}\PY{p}{,}\PY{n}{maxNode}\PY{p}{,}\PY{n}{cost}\PY{p}{)}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} get solution nodes}
+            \PY{n}{sp} \PY{o}{=} \PY{p}{[}\PY{n}{i} \PY{k}{for} \PY{n}{i}\PY{p}{,}\PY{n}{j} \PY{o+ow}{in} \PY{n}{solution}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}
+            \PY{n}{sp}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{end}\PY{p}{)}
+        
+            \PY{c+c1}{\PYZsh{} set up random position values}
+            \PY{n}{a} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{maxNode}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+            \PY{n}{b} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{maxNode}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+            \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{shuffle}\PY{p}{(}\PY{n}{a}\PY{p}{)}
+            \PY{n}{posArray} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}
+        
+            \PY{n}{positions} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+            \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{n+nb}{len}\PY{p}{(}\PY{n}{sp}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                \PY{n}{L} \PY{o}{=} \PY{n}{posArray}\PY{p}{[}\PY{n}{p}\PY{p}{]}
+                \PY{n}{positions}\PY{p}{[}\PY{n}{sp}\PY{p}{[}\PY{n}{p}\PY{p}{]}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{L}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{L}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+        
+            \PY{c+c1}{\PYZsh{} set up network graph}
+            \PY{n}{G} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{DiGraph}\PY{p}{(}\PY{p}{)}
+            \PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}nodes\PYZus{}from}\PY{p}{(}\PY{n}{sp}\PY{p}{)}
+        
+            \PY{k}{for} \PY{n}{i}\PY{p}{,}\PY{n}{j} \PY{o+ow}{in} \PY{n}{tuplelist}\PY{p}{(}\PY{n}{solution}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+                \PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}edge}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}
+        
+            \PY{n}{labels} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+            \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{solution}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{:}
+                \PY{n}{labels}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{c}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}
+        
+            \PY{n}{title} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Optimal Path: Gamma = }\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{int}\PY{p}{(}\PY{n}{solution}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{, Opt Obj = }\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{round}\PY{p}{(}\PY{n}{solution}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+            \PY{n}{nx}\PY{o}{.}\PY{n}{draw\PYZus{}networkx}\PY{p}{(}\PY{n}{G}\PY{p}{,}\PY{n}{positions}\PY{p}{,}\PY{n}{node\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{350}\PY{p}{)}
+            \PY{n}{nx}\PY{o}{.}\PY{n}{draw\PYZus{}networkx\PYZus{}edge\PYZus{}labels}\PY{p}{(}\PY{n}{G}\PY{p}{,}\PY{n}{positions}\PY{p}{,}\PY{n}{edge\PYZus{}labels}\PY{o}{=}\PY{n}{labels}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{off}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{n}{title}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{} pull data}
+        \PY{n}{edges} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{edge\PYZus{}values.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{i}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{int64}\PY{p}{(}\PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{i}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{j}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{int64}\PY{p}{(}\PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{j}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} create dictionaries of edge values}
+        \PY{n}{c} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+        \PY{n}{d} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+        \PY{n}{nodes} \PY{o}{=} \PY{n}{tuplelist}\PY{p}{(}\PY{p}{)}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{edges}\PY{o}{.}\PY{n}{index}\PY{p}{:}
+            \PY{n}{c}\PY{p}{[}\PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{i}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,}\PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{j}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]} \PY{o}{=} \PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{c(ij)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+            \PY{n}{d}\PY{p}{[}\PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{i}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,}\PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{j}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]} \PY{o}{=} \PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d(ij)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+            \PY{n}{nodes}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{i}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,}\PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{j}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        
+        \PY{n}{maxNodes} \PY{o}{=} \PY{n+nb}{max}\PY{p}{(}\PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{j}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{minNodes} \PY{o}{=} \PY{n+nb}{min}\PY{p}{(}\PY{n}{edges}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{i}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{c+c1}{\PYZsh{} choose start and end nodes}
+        \PY{n}{start} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{n}{end} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{maxNodes}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} allowed edge congestions}
+        \PY{n}{gend} \PY{o}{=} \PY{l+m+mi}{4}
+        \PY{n}{gammas} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{gend}\PY{p}{,}\PY{n}{gend}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Allowed Congestions:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{gammas}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Allowed Congestions:
+[ 0.  1.  2.  3.  4.]
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{c+c1}{\PYZsh{} initialize model}
+        \PY{n}{model} \PY{o}{=} \PY{n}{Model}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shortest\PYZus{}Path}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} set up x binary variables, set to each location/movement}
+        \PY{n}{xVars} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{addVars}\PY{p}{(}\PY{n}{nodes}\PY{p}{,} \PY{n}{vtype}\PY{o}{=}\PY{n}{GRB}\PY{o}{.}\PY{n}{BINARY}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{move}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{y0} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{addVar}\PY{p}{(}\PY{n}{vtype}\PY{o}{=}\PY{n}{GRB}\PY{o}{.}\PY{n}{CONTINUOUS}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{zVars} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{addVars}\PY{p}{(}\PY{n}{nodes}\PY{p}{,} \PY{n}{lb}\PY{o}{=}\PY{l+m+mf}{0.0}\PY{p}{,} \PY{n}{vtype}\PY{o}{=}\PY{n}{GRB}\PY{o}{.}\PY{n}{CONTINUOUS}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cong}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{c+c1}{\PYZsh{} constrain all entrance and exit nodes}
+        \PY{n}{enterStart} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{n}{leaveStart} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{n}{enterEnd} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{n}{leaveEnd} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{nodes}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} for start nodes}
+            \PY{k}{if} \PY{n}{n}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{==} \PY{n}{start}\PY{p}{:}
+                \PY{n}{leaveStart}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{xVars}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{)}
+            \PY{k}{elif} \PY{n}{n}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{==} \PY{n}{start}\PY{p}{:}
+                \PY{n}{enterStart}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{xVars}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} for end nodes}
+            \PY{k}{if} \PY{n}{n}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{==} \PY{n}{end}\PY{p}{:}
+                \PY{n}{leaveEnd}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{xVars}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{)}
+            \PY{k}{elif} \PY{n}{n}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{==} \PY{n}{end}\PY{p}{:}
+                \PY{n}{enterEnd}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{xVars}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{)}
+        
+        \PY{n}{model}\PY{o}{.}\PY{n}{addConstr}\PY{p}{(}\PY{n}{quicksum}\PY{p}{(}\PY{n}{leaveStart}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{addConstr}\PY{p}{(}\PY{n}{quicksum}\PY{p}{(}\PY{n}{enterStart}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{addConstr}\PY{p}{(}\PY{n}{quicksum}\PY{p}{(}\PY{n}{leaveEnd}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{addConstr}\PY{p}{(}\PY{n}{quicksum}\PY{p}{(}\PY{n}{enterEnd}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{c+c1}{\PYZsh{} gather all paths}
+        \PY{n}{paths} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{minNodes}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{maxNodes}\PY{p}{)}\PY{p}{:}
+            \PY{n}{pathFrom} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+            \PY{n}{pathTo} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+            \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{nodes}\PY{p}{:}
+                \PY{k}{if} \PY{n}{n}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{==} \PY{n}{i}\PY{p}{:}
+                    \PY{n}{pathFrom}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{xVars}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{)}
+                \PY{k}{elif} \PY{n}{n}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{==} \PY{n}{i}\PY{p}{:}
+                    \PY{n}{pathTo}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{xVars}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{)}
+            \PY{n}{paths}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{n}{pathFrom}\PY{p}{,}\PY{n}{pathTo}\PY{p}{]}\PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{p}{)}
+        
+        \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n}{paths}\PY{p}{:}
+            \PY{n}{model}\PY{o}{.}\PY{n}{addConstr}\PY{p}{(}\PY{n}{quicksum}\PY{p}{(}\PY{n}{p}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{quicksum}\PY{p}{(}\PY{n}{p}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{==} \PY{l+m+mf}{0.0}\PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Example of Path Constraint for a Given Node:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{quicksum}\PY{p}{(}\PY{n}{p}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{quicksum}\PY{p}{(}\PY{n}{p}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Example of Path Constraint for a Given Node:
+<gurobi.LinExpr: move[88,57] + move[88,55] + move[88,64] + move[88,30] + move[88,49] + move[88,65] + move[88,80] + move[88,46] + move[88,77] + move[88,85] + move[88,52] + move[88,41] + move[88,82] + move[88,69] + move[88,43] + move[88,58] + move[88,36] + move[88,86] + move[88,39] + move[88,50] + move[88,47] + move[88,89] + move[88,62] + move[88,71] + move[88,56] + move[88,51] + move[88,35] + move[88,40] + move[88,38] + move[88,68] + move[88,79] + move[88,54] + move[88,29] + move[88,70] + move[88,44] + move[88,76] + move[88,73] + move[88,81] + move[88,37] + move[88,88] + move[88,59] + move[88,66] + move[88,61] + move[88,31] + move[88,63] + move[88,33] + move[88,78] + move[88,42] + move[88,53] + move[88,75] + move[88,34] + move[88,74] + move[88,48] + move[88,83] + move[88,72] + move[88,45] + move[88,32] + move[88,87] + move[88,67] + move[88,84] + move[88,60] + -1.0 move[0,88] + -1.0 move[1,88] + -1.0 move[2,88] + -1.0 move[3,88] + -1.0 move[4,88] + -1.0 move[5,88] + -1.0 move[6,88] + -1.0 move[7,88] + -1.0 move[8,88] + -1.0 move[9,88] + -1.0 move[10,88] + -1.0 move[11,88] + -1.0 move[12,88] + -1.0 move[13,88] + -1.0 move[14,88] + -1.0 move[15,88] + -1.0 move[16,88] + -1.0 move[17,88] + -1.0 move[18,88] + -1.0 move[19,88] + -1.0 move[20,88] + -1.0 move[21,88] + -1.0 move[22,88] + -1.0 move[23,88] + -1.0 move[24,88] + -1.0 move[25,88] + -1.0 move[26,88] + -1.0 move[27,88] + -1.0 move[28,88] + -1.0 move[29,88] + -1.0 move[30,88] + -1.0 move[31,88] + -1.0 move[32,88] + -1.0 move[33,88] + -1.0 move[34,88] + -1.0 move[35,88] + -1.0 move[36,88] + -1.0 move[37,88] + -1.0 move[38,88] + -1.0 move[39,88] + -1.0 move[40,88] + -1.0 move[41,88] + -1.0 move[42,88] + -1.0 move[43,88] + -1.0 move[44,88] + -1.0 move[45,88] + -1.0 move[46,88] + -1.0 move[47,88] + -1.0 move[48,88] + -1.0 move[49,88] + -1.0 move[50,88] + -1.0 move[51,88] + -1.0 move[52,88] + -1.0 move[53,88] + -1.0 move[54,88] + -1.0 move[55,88] + -1.0 move[56,88] + -1.0 move[57,88] + -1.0 move[58,88] + -1.0 move[59,88] + -1.0 move[60,88] + -1.0 move[61,88] + -1.0 move[62,88] + -1.0 move[63,88] + -1.0 move[64,88] + -1.0 move[65,88] + -1.0 move[66,88] + -1.0 move[67,88] + -1.0 move[68,88] + -1.0 move[69,88] + -1.0 move[70,88] + -1.0 move[71,88] + -1.0 move[72,88] + -1.0 move[73,88] + -1.0 move[74,88] + -1.0 move[75,88] + -1.0 move[76,88] + -1.0 move[77,88] + -1.0 move[78,88] + -1.0 move[79,88] + -1.0 move[80,88] + -1.0 move[81,88] + -1.0 move[82,88] + -1.0 move[83,88] + -1.0 move[84,88] + -1.0 move[85,88] + -1.0 move[86,88] + -1.0 move[87,88] + -1.0 move[89,88] + -1.0 move[90,88]>
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{c+c1}{\PYZsh{} objective function}
+        \PY{n}{costObj} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{nodes}\PY{p}{:}
+            \PY{n}{costObj}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{xVars}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{o}{*}\PY{n}{c}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{)}
+            \PY{n}{model}\PY{o}{.}\PY{n}{addConstr}\PY{p}{(}\PY{n}{zVars}\PY{p}{[}\PY{n}{n}\PY{p}{]} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{n}{xVars}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{o}{*}\PY{n}{d}\PY{p}{[}\PY{n}{n}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{y0}\PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Example of Congestion Constraint:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{zVars}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ \PYZgt{}= }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{xVars}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{o}{*}\PY{n}{d}\PY{p}{[}\PY{n}{n}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{y0}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Example of Congestion Constraint:
+<gurobi.Var cong[90,42]>  >=  <gurobi.LinExpr: 3.88801471279467 move[90,42] + -1.0 y0>
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{c+c1}{\PYZsh{} iterate optimization through various gammas (congestions)}
+         \PY{n}{output} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{k}{for} \PY{n}{g} \PY{o+ow}{in} \PY{n}{gammas}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{} optimize}
+             \PY{n}{objective} \PY{o}{=} \PY{n}{quicksum}\PY{p}{(}\PY{n}{costObj}\PY{p}{)} \PY{o}{+} \PY{n}{g}\PY{o}{*}\PY{n}{y0} \PY{o}{+} \PY{n}{quicksum}\PY{p}{(}\PY{n}{zVars}\PY{p}{)}
+             \PY{n}{model}\PY{o}{.}\PY{n}{setObjective}\PY{p}{(}\PY{n}{objective}\PY{p}{,} \PY{n}{GRB}\PY{o}{.}\PY{n}{MINIMIZE}\PY{p}{)}
+         
+             \PY{n}{model}\PY{o}{.}\PY{n}{optimize}\PY{p}{(}\PY{p}{)}
+         
+             \PY{c+c1}{\PYZsh{} order the printout of optimal edges}
+             \PY{n}{moves} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+             \PY{k}{for} \PY{n}{m} \PY{o+ow}{in} \PY{n}{xVars}\PY{p}{:}
+                 \PY{k}{if} \PY{n}{xVars}\PY{p}{[}\PY{n}{m}\PY{p}{]}\PY{o}{.}\PY{n}{x} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+                     \PY{n}{moves}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{m}\PY{p}{)}
+             \PY{n}{order} \PY{o}{=} \PY{p}{[}\PY{n}{moves}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}
+             \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{moves}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{for} \PY{n}{m} \PY{o+ow}{in} \PY{n}{moves}\PY{p}{:}
+                     \PY{k}{if} \PY{n}{order}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{==} \PY{n}{m}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{:}
+                         \PY{n}{order}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{m}\PY{p}{)}
+             \PY{n}{output}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{n}{g}\PY{p}{,}\PY{n}{order}\PY{p}{,}\PY{n}{model}\PY{o}{.}\PY{n}{objVal}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Optimize a model with 6061 rows, 11939 columns and 29729 nonzeros
+Variable types: 5970 continuous, 5969 integer (5969 binary)
+Coefficient statistics:
+  Matrix range     [9e-05, 5e+00]
+  Objective range  [2e-04, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Found heuristic solution: objective 0.9533653
+Presolve removed 5971 rows and 6294 columns
+Presolve time: 0.03s
+Presolved: 90 rows, 5645 columns, 11180 nonzeros
+Variable types: 0 continuous, 5645 integer (5645 binary)
+
+Root relaxation: objective 9.273644e-02, 24 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+*    0     0               0       0.0927364    0.09274  0.00\%     -    0s
+
+Explored 0 nodes (24 simplex iterations) in 0.06 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 2: 0.0927364 0.953365 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 9.273644178749e-02, best bound 9.273644178749e-02, gap 0.0000\%
+Optimize a model with 6061 rows, 11939 columns and 29729 nonzeros
+Variable types: 5970 continuous, 5969 integer (5969 binary)
+Coefficient statistics:
+  Matrix range     [9e-05, 5e+00]
+  Objective range  [2e-04, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+Loaded MIP start with objective 4.09274
+
+Presolve removed 199 rows and 1126 columns
+Presolve time: 0.18s
+Presolved: 5862 rows, 10813 columns, 56035 nonzeros
+Variable types: 5137 continuous, 5676 integer (5676 binary)
+
+Root relaxation: objective 7.614694e-01, 108 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.76147    0   48    4.09274    0.76147  81.4\%     -    0s
+H    0     0                       2.4704548    0.76147  69.2\%     -    0s
+H    0     0                       2.3521988    0.76147  67.6\%     -    0s
+H    0     0                       1.7104797    0.76147  55.5\%     -    0s
+H    0     0                       1.5548262    0.76157  51.0\%     -    0s
+     0     0    0.81954    0   28    1.55483    0.81954  47.3\%     -    0s
+     0     0    0.93375    0   25    1.55483    0.93375  39.9\%     -    0s
+H    0     0                       1.5058401    0.93375  38.0\%     -    0s
+     0     0    0.95309    0   22    1.50584    0.95309  36.7\%     -    0s
+H    0     0                       1.4460993    0.95309  34.1\%     -    0s
+     0     0    0.95709    0   27    1.44610    0.95709  33.8\%     -    0s
+H    0     0                       1.2989292    0.95709  26.3\%     -    0s
+H    0     0                       1.2815288    0.95709  25.3\%     -    0s
+     0     0    1.02650    0   29    1.28153    1.02650  19.9\%     -    0s
+     0     0    1.02650    0   24    1.28153    1.02650  19.9\%     -    0s
+     0     0    1.05961    0   25    1.28153    1.05961  17.3\%     -    0s
+     0     0    1.09182    0   25    1.28153    1.09182  14.8\%     -    0s
+     0     0    1.23169    0   24    1.28153    1.23169  3.89\%     -    0s
+     0     0    1.23169    0   18    1.28153    1.23169  3.89\%     -    0s
+     0     0    1.23169    0   29    1.28153    1.23169  3.89\%     -    0s
+     0     0    1.23169    0   14    1.28153    1.23169  3.89\%     -    0s
+     0     0    1.24060    0   16    1.28153    1.24060  3.19\%     -    0s
+     0     0    1.27684    0    6    1.28153    1.27684  0.37\%     -    0s
+     0     0     cutoff    0         1.28153    1.28153  0.00\%     -    0s
+
+Cutting planes:
+  Gomory: 1
+  MIR: 2
+
+Explored 1 nodes (427 simplex iterations) in 0.81 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 9: 1.28153 1.29893 1.4461 {\ldots} 4.09274
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.281528811296e+00, best bound 1.281528811296e+00, gap 0.0000\%
+Optimize a model with 6061 rows, 11939 columns and 29729 nonzeros
+Variable types: 5970 continuous, 5969 integer (5969 binary)
+Coefficient statistics:
+  Matrix range     [9e-05, 5e+00]
+  Objective range  [2e-04, 2e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+Loaded MIP start with objective 1.64177
+
+Presolve removed 68 rows and 132 columns
+Presolve time: 0.03s
+Presolved: 5993 rows, 11807 columns, 29400 nonzeros
+Variable types: 5904 continuous, 5903 integer (5903 binary)
+
+Root relaxation: objective 8.678581e-01, 105 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.86786    0   56    1.64177    0.86786  47.1\%     -    0s
+     0     0    0.98548    0   45    1.64177    0.98548  40.0\%     -    0s
+     0     0    0.98548    0   39    1.64177    0.98548  40.0\%     -    0s
+H    0     0                       1.5697475    0.98548  37.2\%     -    0s
+     0     0    1.02430    0   34    1.56975    1.02430  34.7\%     -    0s
+     0     0    1.02430    0   31    1.56975    1.02430  34.7\%     -    0s
+     0     0    1.05457    0   37    1.56975    1.05457  32.8\%     -    0s
+     0     0    1.08872    0   32    1.56975    1.08872  30.6\%     -    0s
+     0     0    1.11275    0   33    1.56975    1.11275  29.1\%     -    0s
+     0     0    1.21582    0   29    1.56975    1.21582  22.5\%     -    0s
+     0     0    1.29376    0   21    1.56975    1.29376  17.6\%     -    0s
+     0     0    1.33737    0   14    1.56975    1.33737  14.8\%     -    0s
+     0     0    1.33928    0   12    1.56975    1.33928  14.7\%     -    0s
+     0     0    1.38501    0    4    1.56975    1.38501  11.8\%     -    0s
+     0     0    1.51625    0    7    1.56975    1.51625  3.41\%     -    0s
+     0     0     cutoff    0         1.56975    1.56975  0.00\%     -    0s
+
+Cutting planes:
+  Gomory: 1
+  MIR: 1
+
+Explored 1 nodes (521 simplex iterations) in 0.41 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 2: 1.56975 1.64177 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.569747518826e+00, best bound 1.569747518826e+00, gap 0.0000\%
+Optimize a model with 6061 rows, 11939 columns and 29729 nonzeros
+Variable types: 5970 continuous, 5969 integer (5969 binary)
+Coefficient statistics:
+  Matrix range     [9e-05, 5e+00]
+  Objective range  [2e-04, 3e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+Loaded MIP start with objective 1.84057
+
+Presolve removed 68 rows and 132 columns
+Presolve time: 0.03s
+Presolved: 5993 rows, 11807 columns, 29400 nonzeros
+Variable types: 5904 continuous, 5903 integer (5903 binary)
+
+Root relaxation: objective 9.211145e-01, 133 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.92111    0   69    1.84057    0.92111  50.0\%     -    0s
+     0     0    1.15557    0   34    1.84057    1.15557  37.2\%     -    0s
+     0     0    1.15557    0   47    1.84057    1.15557  37.2\%     -    0s
+     0     0    1.24425    0   28    1.84057    1.24425  32.4\%     -    0s
+     0     0    1.27932    0   28    1.84057    1.27932  30.5\%     -    0s
+     0     0    1.30883    0   26    1.84057    1.30883  28.9\%     -    0s
+     0     0    1.30883    0   41    1.84057    1.30883  28.9\%     -    0s
+     0     0    1.30883    0   23    1.84057    1.30883  28.9\%     -    0s
+     0     0    1.32785    0   35    1.84057    1.32785  27.9\%     -    0s
+H    0     0                       1.8005042    1.32785  26.3\%     -    0s
+     0     0    1.35446    0   28    1.80050    1.35446  24.8\%     -    0s
+     0     0    1.35446    0   35    1.80050    1.35446  24.8\%     -    0s
+     0     0    1.35446    0   29    1.80050    1.35446  24.8\%     -    0s
+     0     0    1.35446    0   28    1.80050    1.35446  24.8\%     -    0s
+     0     0    1.36510    0   27    1.80050    1.36510  24.2\%     -    0s
+     0     0    1.36524    0   25    1.80050    1.36524  24.2\%     -    0s
+     0     0    1.50659    0   25    1.80050    1.50659  16.3\%     -    0s
+     0     0    1.72042    0   25    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   28    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   28    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   24    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   20    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   19    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   18    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   16    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   15    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   16    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   16    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   16    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72042    0   14    1.80050    1.72042  4.45\%     -    0s
+     0     0    1.72883    0    8    1.80050    1.72883  3.98\%     -    0s
+     0     0    1.73773    0    7    1.80050    1.73773  3.49\%     -    0s
+     0     0    1.76343    0    1    1.80050    1.76343  2.06\%     -    0s
+
+Cutting planes:
+  MIR: 1
+
+Explored 1 nodes (851 simplex iterations) in 0.49 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 2: 1.8005 1.84057 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.800504231753e+00, best bound 1.800504231753e+00, gap 0.0000\%
+Optimize a model with 6061 rows, 11939 columns and 29729 nonzeros
+Variable types: 5970 continuous, 5969 integer (5969 binary)
+Coefficient statistics:
+  Matrix range     [9e-05, 5e+00]
+  Objective range  [2e-04, 4e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+Loaded MIP start with objective 2.03126
+
+Presolve removed 68 rows and 132 columns
+Presolve time: 0.03s
+Presolved: 5993 rows, 11807 columns, 29400 nonzeros
+Variable types: 5904 continuous, 5903 integer (5903 binary)
+
+Root relaxation: objective 9.600741e-01, 131 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.96007    0   70    2.03126    0.96007  52.7\%     -    0s
+H    0     0                       2.0194844    1.01923  49.5\%     -    0s
+     0     0    1.29705    0   42    2.01948    1.29705  35.8\%     -    0s
+     0     0    1.29705    0   54    2.01948    1.29705  35.8\%     -    0s
+     0     0    1.36126    0   42    2.01948    1.36126  32.6\%     -    0s
+     0     0    1.39308    0   38    2.01948    1.39308  31.0\%     -    0s
+     0     0    1.44811    0   27    2.01948    1.44811  28.3\%     -    0s
+     0     0    1.44811    0   46    2.01948    1.44811  28.3\%     -    0s
+     0     0    1.44811    0   36    2.01948    1.44811  28.3\%     -    0s
+     0     0    1.44811    0   27    2.01948    1.44811  28.3\%     -    0s
+     0     0    1.44811    0   24    2.01948    1.44811  28.3\%     -    0s
+     0     0    1.46207    0   27    2.01948    1.46207  27.6\%     -    0s
+H    0     0                       1.9370508    1.46207  24.5\%     -    0s
+     0     0    1.47896    0   24    1.93705    1.47896  23.6\%     -    0s
+     0     0    1.49347    0   22    1.93705    1.49347  22.9\%     -    0s
+     0     0    1.50208    0   26    1.93705    1.50208  22.5\%     -    0s
+     0     0    1.50208    0   41    1.93705    1.50208  22.5\%     -    0s
+     0     0    1.50208    0   28    1.93705    1.50208  22.5\%     -    0s
+     0     0    1.50512    0   27    1.93705    1.50512  22.3\%     -    0s
+     0     0    1.52360    0   26    1.93705    1.52360  21.3\%     -    0s
+     0     0    1.53626    0   26    1.93705    1.53626  20.7\%     -    0s
+H    0     0                       1.9330727    1.53626  20.5\%     -    0s
+     0     0    1.92971    0   26    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   30    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   27    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   24    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   27    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   28    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   25    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   21    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   18    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   26    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   21    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   21    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   23    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   20    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   20    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   19    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   16    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   13    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   14    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   13    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0   14    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0    8    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0    4    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0    4    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0    4    1.93307    1.92971  0.17\%     -    0s
+     0     0    1.92971    0    4    1.93307    1.92971  0.17\%     -    0s
+     0     0 infeasible    0         1.93307    1.93307  0.00\%     -    0s
+
+Cutting planes:
+  Gomory: 3
+  MIR: 1
+
+Explored 1 nodes (1223 simplex iterations) in 0.55 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 4: 1.93307 1.93705 2.01948 2.03126 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.933072729796e+00, best bound 1.933072729796e+00, gap 0.0000\%
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{c+c1}{\PYZsh{} print optimal values and paths, plot network}
+         \PY{k}{for} \PY{n}{o} \PY{o+ow}{in} \PY{n}{output}\PY{p}{:}
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{For Gamma: }\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n}{o}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Path:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{o}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cost of Movement (Objective):}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{o}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+             \PY{n}{networkCompletePlot}\PY{p}{(}\PY{n}{o}\PY{p}{,}\PY{n}{maxNodes}\PY{p}{)}
+             \PY{n}{networkPathPlot}\PY{p}{(}\PY{n}{o}\PY{p}{,}\PY{n}{maxNodes}\PY{p}{,}\PY{n}{c}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+For Gamma: 0.0
+Path:
+[(0, 40), (40, 31), (31, 82), (82, 89)]
+Cost of Movement (Objective):
+0.0927364417874903
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+For Gamma: 1.0
+Path:
+[(0, 34), (34, 51), (51, 82), (82, 65), (65, 89)]
+Cost of Movement (Objective):
+1.2815288112962624
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+For Gamma: 2.0
+Path:
+[(0, 34), (34, 43), (43, 61), (61, 37), (37, 65), (65, 89)]
+Cost of Movement (Objective):
+1.5697475188262433
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_8.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+For Gamma: 3.0
+Path:
+[(0, 34), (34, 43), (43, 61), (61, 37), (37, 65), (65, 89)]
+Cost of Movement (Objective):
+1.8005042317534627
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_10.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_11.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+For Gamma: 4.0
+Path:
+[(0, 52), (52, 84), (84, 89)]
+Cost of Movement (Objective):
+1.9330727297958064
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_13.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_14.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
