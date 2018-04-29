@@ -21,3 +21,7 @@ The output for the original set of data shows the effect of allowable edge failu
 ![gamma 4](https://github.com/austingriffith94/shortest_path_optimization/blob/master/LaTeX/shortPath%20original%20data/output_10_11.png "gamma 4")
 
 ![gamma 5](https://github.com/austingriffith94/shortest_path_optimization/blob/master/LaTeX/shortPath%20original%20data/output_10_14.png "gamma 5")
+
+The complete networks were also graphed. Though not very useful in determining the actual path, they can add some perspective on the complexity of the problem and the need for a robust optimization model in order to solve.
+
+![complete](https://github.com/austingriffith94/shortest_path_optimization/blob/master/LaTeX/shortPath%20original%20data/output_10_1.png "complete")
