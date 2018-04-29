@@ -10,6 +10,66 @@ import matplotlib.pylab as pylab
 import networkx as nx
 
 #%%
+# set up plotting parameters
+params = {'legend.fontsize': 20,
+          'figure.figsize': (13,9),
+         'axes.labelsize': 20,
+         'axes.titlesize':25,
+         'xtick.labelsize':15,
+         'ytick.labelsize':15}
+pylab.rcParams.update(params)
+
+#%%
+# graph all nodes
+def networkCompletePlot(solution,maxNode):
+    G = nx.DiGraph()
+    G.add_nodes_from(range(0,maxNode+1))
+    for i,j in nodes:
+        G.add_edge(i,j)
+
+    # get solution nodes
+    sp = [i for i,j in solution[1]]
+    sp.append(end)
+
+    colorNode = ['white' if not node in sp else 'red' for node in G.nodes()]
+    nx.draw_networkx(G,node_color=colorNode,node_size=200)
+    plt.axis('off')
+    plt.show()
+
+# graph path, with cost on edge
+def networkPathPlot(solution,maxNode,cost):
+    # get solution nodes
+    sp = [i for i,j in solution[1]]
+    sp.append(end)
+
+    # set up random position values
+    a = np.arange(maxNode+1)
+    b = np.arange(maxNode+1)
+    np.random.shuffle(a)
+    posArray = np.array([a,b]).transpose()
+
+    positions = {}
+    for p in range(0,len(sp)):
+        L = posArray[p]
+        positions[sp[p]] = (L[0],L[1])
+
+    # set up network graph
+    G = nx.DiGraph()
+    G.add_nodes_from(sp)
+
+    for i,j in tuplelist(solution[1]):
+        G.add_edge(i,j)
+
+    labels = {}
+    for i in solution[1]:
+        labels[i] = round(c[i],3)
+
+    nx.draw_networkx(G,positions,node_size=250)
+    nx.draw_networkx_edge_labels(G,positions,edge_labels=labels)
+    plt.axis('off')
+    plt.show()
+
+#%%
 # pull data
 edges = pd.read_csv('edge_data.csv')
 
@@ -33,7 +93,6 @@ end = 49
 # allowed edge congestions
 gend = 4
 gammas = np.linspace(0,gend,gend+1)
-g = gammas[0]
 
 #%%
 # initialize model
@@ -117,7 +176,7 @@ for g in gammas:
     output.append([g,order,model.objVal])
 
 #%%
-# print optimal values and paths
+# print optimal values and paths, plot network
 for o in output:
     print('\nFor Gamma: '+str(o[0]))
     print('Path:')
@@ -127,124 +186,8 @@ for o in output:
     networkCompletePlot(o,maxNodes)
     networkPathPlot(o,maxNodes,c)
 
-#%%
-# set up plotting parameters
-params = {'legend.fontsize': 20,
-          'figure.figsize': (13,9),
-         'axes.labelsize': 20,
-         'axes.titlesize':25,
-         'xtick.labelsize':15,
-         'ytick.labelsize':15}
-pylab.rcParams.update(params)
-#%%
-# graph all nodes
-def networkCompletePlot(solution,maxNode):
-    G = nx.DiGraph()
-    G.add_nodes_from(range(0,maxNode+1))
-    for i,j in nodes:
-        G.add_edge(i,j)
 
-    # get solution nodes
-    sp = [i for i,j in solution[1]]
-    sp.append(end)
 
-    colorNode = ['white' if not node in sp else 'red' for node in G.nodes()]
-    nx.draw_networkx(G,node_color=colorNode,node_size=200)
-    plt.axis('off')
-    plt.show()
-
-# graph path, with cost on edge
-def networkPathPlot(solution,maxNode,cost):
-    # get solution nodes
-    sp = [i for i,j in solution[1]]
-    sp.append(end)
-
-    # set up random position values
-    a = np.arange(maxNode+1)
-    b = np.arange(maxNode+1)
-    np.random.shuffle(a)
-    posArray = np.array([a,b]).transpose()
-
-    positions = {}
-    for p in range(0,len(sp)):
-        L = posArray[p]
-        positions[sp[p]] = (L[0],L[1])
-
-    # set up network graph
-    G = nx.DiGraph()
-    G.add_nodes_from(sp)
-
-    for i,j in tuplelist(solution[1]):
-        G.add_edge(i,j)
-
-    labels = {}
-    for i in solution[1]:
-        labels[i] = round(c[i],3)
-
-    nx.draw_networkx(G,positions,node_size=250)
-    nx.draw_networkx_edge_labels(G,positions,edge_labels=labels)
-    plt.axis('off')
-    plt.show()
-
-#%%
-# graph all nodes
-solution = output[0]
-
-G = nx.DiGraph()
-G.add_nodes_from(range(minNodes,maxNodes+1))
-for i,j in nodes:
-    G.add_edge(i,j)
-
-# set up random position values
-a = np.arange(maxNodes+1)
-b = np.arange(maxNodes+1)
-np.random.shuffle(a)
-posArray = np.array([a,b]).transpose()
-
-positions = {}
-for p in range(0,maxNodes+1):
-    L = posArray[p]
-    positions[p] = (L[0],L[1])
-
-# get solution nodes
-sp = [i for i,j in solution[1]]
-sp.append(end)
-
-colorNode = ['white' if not node in sp else 'red' for node in G.nodes()]
-colorEdge = ['black' if not edge in solution[1] else 'red' for edge in G.edges()]
-
-nx.draw_networkx(G,positions,node_color=colorNode,node_size=200)
-nx.draw_networkx_edges(G,positions,edge_color=colorEdge)
-plt.axis('off')
-plt.show()
-
-#%%
-# set up random position values
-a = np.arange(maxNodes+1)
-b = np.arange(maxNodes+1)
-np.random.shuffle(a)
-posArray = np.array([a,b]).transpose()
-
-positions = {}
-for p in range(0,len(sp)):
-    L = posArray[p]
-    positions[sp[p]] = (L[0],L[1])
-
-# set up network graph
-G = nx.DiGraph()
-G.add_nodes_from(sp)
-
-for i,j in tuplelist(solution[1]):
-    G.add_edge(i,j)
-
-labels = {}
-for i in solution[1]:
-    labels[i] = round(c[i],3)
-
-nx.draw_networkx(G,positions,node_size=250)
-nx.draw_networkx_edge_labels(G,positions,edge_labels=labels)
-plt.axis('off')
-plt.show()
 
 
 
