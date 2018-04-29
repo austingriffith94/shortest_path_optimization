@@ -16,7 +16,7 @@
 	\maketitle
 
 \section{Problem Setup}
-Given a directed graph $G = (V,E)$. Let $s$ and $t$ both exist on $V$. In this case, $s$ is $0$, and $t$ is the final node value. The nominal travel time on a given edge (ij) is $c_{ij}$. If the edge fails (gets congested), then the travel time becomes $c_{ij} + d_{ij}$. There are at most $L$ allowable simultaneous edge failures.
+We are given a directed graph $G = (V,E)$. Let $s$ and $t$ both exist on $V$. In this case, $s$ is $0$, and $t$ is the final node value. The nominal travel time on a given edge $(i,j)$ is $c_{ij}$. If the edge fails (gets congested), then the travel time becomes $c_{ij} + d_{ij}$. There are at most $L$ allowable simultaneous edge failures.
 
 The goal is to minimize the worst-case travel cost from $s$ to $t$. Vary $L$ to observe its affect on the model.
 
@@ -37,13 +37,13 @@ $$
 \sum_{j=1}^{n}d_{j}x_{j}
 $$
 
-This worst case scenario is determined by the maximum allowable edge failures. Therefore, this summation can be turned into a maximization problem, with decision variables $S$ and $L$.
+This worst case scenario is determined by the maximum allowable edge failures. Therefore, this summation can be turned into a maximization problem, with decision variable $S$, and variable scalar $L$.
 
 $$
 \max_{S \in 1 ... n, |S| = L} \sum_{j \in S}^{}d_{j}x_{j}
 $$
 
-From here, this maximization of the worst case can now be added to our simple linear program defined at the beginning, allowing us to solve for the optimal worst-case travel scenario.
+From here, this maximization of the worst scenario can now be added to our simple linear program defined at the beginning. This allows us to solve for the optimal worst-case travel scenario.
 
 $$
 \underset{x \in \{0,1\}}{\textrm{min}} \lbrack c^T x + \max_{S \in 1 ... n, |S| = L} \sum_{j \in S}^{}d_{j}x_{j} \rbrack
@@ -73,13 +73,53 @@ $$
 0 \leq s_{j} \leq 1 \quad \forall j
 $$
 
-Now we can formulate the dual of the relaxation.
+Now we can formulate the dual of the relaxation. The dual will be of the following form.
 
-\section{Final Formulation}
-Now that the derivation is complete, we can state the final equation for the shortest path model.
+$$ \textrm{objective function} \leq \textrm{relaxation}
+$$
+$$
+\sum_{j}^{} s_{j} \left( \lambda_0 + \lambda_1 \right) \leq L \lambda_0 + \sum_{j}^{} \lambda_j
+$$
+
+The constraints of the new dual mixed integer linear program (MILP) are as follows:
 
 $$
-\min \overline{c}^T x + L \lambda_0 + \sum_{j = 1}^{n} z_{j} x_{j}
+\lambda_j \geq 0
+$$
+$$
+\lambda_0 \quad \textrm{u.r.}
+$$
+$$
+\lambda_0 + \lambda_j \geq x_j d_j \quad \forall j
+$$
+$$
+\lambda_j \geq x_j d_j - \lambda_0
+$$
+
+To make the combined equation simpler, we can comibine terms. The final two inequalities can be simplified into a pointwise maximum of the two right hand side values.
+
+$$
+\lambda_j = max \left(x_j d_j - \lambda_0 ,0\right)
+$$
+
+
+Now that the inner problem has been converted to a minimization problem through duality, we can now add it back into the main MILP.
+
+$$
+\underset{x,\lambda_0,z}{\textrm{min}} \overline{c}^T x + L \lambda_0 + \sum_{j = 1}^{n} max \left(x_j d_j - \lambda_0 ,0\right)
+$$
+$$
+x_j \in \{0,1\}
+$$
+$$
+\lambda_0 \quad \textrm{u.r.}
+$$
+
+\section{Final Formulation}
+Now that the derivation is complete, we can state the final equation for the shortest path model with respect to the problem stated at the beginning of the paper. 
+
+$$
+\underset{x,\lambda_0,z}{\textrm{min}} \overline{c}^T x + L \lambda_0 + \sum_{j = 1}^{n} z_{j} x_{j}
 $$
 $$
 \textrm{s.t.} \quad x \in \{0,1\}
@@ -99,18 +139,16 @@ $$
 $$
 \sum_{i}^{} x_{i0} = 0
 $$
-
 $$
 \sum_{i}^{} x_{it} = 1 \quad \textrm{for} \quad t = \textrm{end node}
 $$
 $$
 \sum_{j}^{} x_{tj} = 0 \quad \textrm{for} \quad t = \textrm{end node}
 $$
-
 $$
-\sum_{i \neq 0, j \neq t}^{} \lbrack x_{ij} - x_{ji} \rbrack = 0
+\sum_{i \neq 0, j \neq t}^{} \left( x_{ij} - x_{ji} \right) = 0
 $$
 
-In this final formulation, $x$ is a binary decision variable, representing whether a path edge will be taken. $\lambda_0$ is a single continuous, unrestricted decision variable that amplifies the magnitude of the failure value $L$. The final decision variable, $z$, is used to determine which edge will have the congestion, so as to minimize the worst-case scenario. The summations of $x$ values at the end are used to determine the start and end location of the path, and ensure the MILP doesn't end on a node somewhere in the middle.
+In this final formulation, $x$ is a binary decision variable, representing whether a path edge will be taken. $\lambda_0$ is a single continuous, unrestricted decision variable that amplifies the magnitude of the failure value $L$. The final decision variable, $z$, is used to determine which edge will fail, so as to minimize the worst-case scenario. The summations of $x$ values at the end are used to determine the start and end location of the path, and ensure the MILP doesn't end on a node somewhere in the middle.
 
 \end{document}
