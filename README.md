@@ -25,3 +25,6 @@ The output for the original set of data shows the effect of allowable edge failu
 The complete networks were also graphed. Though not very useful in determining the actual path, they can add some perspective on the complexity of the problem and the need for a robust optimization model in order to solve.
 
 ![complete](https://github.com/austingriffith94/shortest_path_optimization/blob/master/LaTeX/shortPath%20original%20data/output_10_1.png "complete")
+
+## Additional Files
+In the jupyter folder, I created a randomized node and edge generator. This will create a .csv file named 'edge_values,' that can be used by the scripts that have 'updating values' in their name. This was more to test the ability of the script to adjust to varying edge and nodes, as well as how large a data set it can handle. Due to the robustness of the gurobi solver package, solving for hundreds of nodes is still relatively quick, taking only a few seconds. However, the networkx package begins to struggle with printing larger edge data. You can adjust the random edge creator by tweaking the 's' and 'minus' variables. Notebooks and pdfs of different data sets can be found in the jupyter and LaTeX folders, respectively.
