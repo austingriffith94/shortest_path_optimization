@@ -14,13 +14,13 @@ import networkx as nx
 params = {'legend.fontsize': 20,
           'figure.figsize': (13,9),
          'axes.labelsize': 20,
-         'axes.titlesize':25,
+         'axes.titlesize':20,
          'xtick.labelsize':15,
          'ytick.labelsize':15}
 pylab.rcParams.update(params)
 
 #%%
-# graph all nodes
+# graph all nodes and paths
 def networkCompletePlot(solution,maxNode):
     G = nx.DiGraph()
     G.add_nodes_from(range(0,maxNode+1))
@@ -32,11 +32,13 @@ def networkCompletePlot(solution,maxNode):
     sp.append(end)
 
     colorNode = ['white' if not node in sp else 'red' for node in G.nodes()]
+    title = 'Complete Network: Gamma = '+str(int(solution[0]))+', Opt Obj = '+str(round(solution[2],5))
     nx.draw_networkx(G,node_color=colorNode,node_size=200)
     plt.axis('off')
+    plt.title(title)
     plt.show()
 
-# graph path, with cost on edge
+# graph path, with costs on edges
 def networkPathPlot(solution,maxNode,cost):
     # get solution nodes
     sp = [i for i,j in solution[1]]
@@ -64,9 +66,11 @@ def networkPathPlot(solution,maxNode,cost):
     for i in solution[1]:
         labels[i] = round(c[i],3)
 
-    nx.draw_networkx(G,positions,node_size=250)
+    title = 'Optimal Path: Gamma = '+str(int(solution[0]))+', Opt Obj = '+str(round(solution[2],5))
+    nx.draw_networkx(G,positions,node_size=350)
     nx.draw_networkx_edge_labels(G,positions,edge_labels=labels)
     plt.axis('off')
+    plt.title(title)
     plt.show()
 
 #%%
@@ -105,7 +109,7 @@ zVars = model.addVars(nodes, lb=0.0, vtype=GRB.CONTINUOUS, name='cong')
 model.update()
 
 #%%
-# gather all entrance and exit nodes
+# constrain all entrance and exit nodes
 enterStart = []
 leaveStart = []
 enterEnd = []
@@ -147,7 +151,7 @@ for p in paths:
 model.update()
 
 #%%
-# get objective function
+# objective function
 costObj = []
 for n in nodes:
     costObj.append(xVars[n]*c[n])
@@ -155,6 +159,7 @@ for n in nodes:
 model.update()
 
 #%%
+# iterate optimization through various gammas (congestions)
 output = []
 for g in gammas:
     # optimize
