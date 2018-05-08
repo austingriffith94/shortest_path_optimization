@@ -16,10 +16,13 @@
 	\maketitle
 
 \section{Problem Setup}
-We are given a directed graph $G = (V,E)$. Let $s$ and $t$ both exist on $V$. In this case, $s$ is $0$, and $t$ is the final node value. The nominal travel time on a given edge $(i,j)$ is $c_{ij}$. If the edge fails (gets congested), then the travel time becomes $c_{ij} + d_{ij}$. There are at most $L$ allowable simultaneous edge failures.
+What is an optimal investment policy when charges and fees, interest and changes of stock quotations are taken into account? Questions such as this can be answered using a shortest path optimization. For the sake of this exercise, a generic derivation will be used, though additional dimensions in the form of variables can be added for the application to more complex problems.
 
-The goal is to minimize the worst-case travel cost from $s$ to $t$. Vary $L$ to observe its affect on the model.
+Let us assume we are given a directed graph $G = (V,E)$. Let $s$ and $t$ both exist on $V$, which will represent the nodes that populate the graph. In this case, $s$ is $0$, and $t$ is the final node value. The nominal measure on a given path $(i,j)$ is $c_{ij}$. If the edge fails (gets congested), then the weight becomes $c_{ij} + d_{ij}$. To add complexity to this problem, let us assume there are at most $L$ allowable simultaneous edge failures on this directed graph.
 
+The goal is to minimize the worst-case cost from $s$ to $t$. Once this is completed, congestions, $L$, can be increased to observe how the optimal solution and path change.
+
+\newpage
 \section{Derivation}
 The initial setup of the shortest path involves creating a simple minimization mixed integer linear program, using the binary variable $x$.
 
@@ -37,7 +40,7 @@ $$
 \sum_{j=1}^{n}d_{j}x_{j}
 $$
 
-This worst case scenario is determined by the maximum allowable edge failures. Therefore, this summation can be turned into a maximization problem, with decision variable $S$, and variable scalar $L$.
+In this derivation, $n$ is the largest node value. This worst case scenario is determined by the maximum allowable edge failures. Therefore, this summation can be turned into a maximization problem, with decision variable $S$, and variable scalar $L$.
 
 $$
 \max_{S \in 1 ... n, |S| = L} \sum_{j \in S}^{}d_{j}x_{j}
@@ -150,5 +153,7 @@ $$
 $$
 
 In this final formulation, $x$ is a binary decision variable, representing whether a path edge will be taken. $\lambda_0$ is a single continuous, unrestricted decision variable that amplifies the magnitude of the failure value $L$. The final decision variable, $z$, is used to determine which edge will fail, so as to minimize the worst-case scenario. The summations of $x$ values at the end are used to determine the start and end location of the path, and ensure the MILP doesn't end on a node somewhere in the middle.
+
+From here, one could attempt to solve for the solution analytically. Assuming the data set for $c_{ij}$ is small enough, one could relax the decision variables, and then attempt a branch and bound method to reach a solution. However, if the problem contains dozens of nodes and thousands of paths, the optimal path should be solved for using an optimization package such as Gurobi or PuLP. 
 
 \end{document}
