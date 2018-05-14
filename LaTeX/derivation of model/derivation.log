@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6670 64-bit) (preloaded format=pdflatex 2018.5.8)  8 MAY 2018 19:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6700 64-bit) (preloaded format=pdflatex 2018.5.14)  14 MAY 2018 17:39
 entering extended mode
 **./derivation.tex
 (derivation.tex
@@ -109,7 +109,7 @@ LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Cskip=\skip48
 )
 ("D:\Program Files\MiKTeX 2.9\tex\latex\eso-pic\eso-pic.sty"
-Package: eso-pic 2015/07/21 v2.0g eso-pic (RN)
+Package: eso-pic 2018/04/12 v2.0h eso-pic (RN)
 
 ("D:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\atbegshi.sty"
 Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
@@ -281,7 +281,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
  (derivation.aux) ) 
 Here is how much of TeX's memory you used:
  3688 strings out of 492972
- 49978 string characters out of 3135861
+ 49978 string characters out of 3135860
  122369 words of memory out of 3000000
  7498 multiletter control sequences out of 15000+200000
  6541 words of font info for 26 fonts, out of 3000000 for 9000
